@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <stdexcept>
+
+// 1. Препроцессор: #ifdef (+1), #elif (+1), #if (+1)
+#define DEBUG_MODE 1
+
+int analyzeMe(int input) {
+    int result = 0;
+
+    #ifdef DEBUG_MODE
+        result += 1;
+    #elif defined(TEST_MODE)
+        result += 2;
+    #endif
+
+    #if 1
+        result += 1;
+    #endif
+
+    // 2. Классический if (+1) и скрытые ветвления && (+1) и || (+1)
+    if (input > 0 && input != 100 || result == 1) {
+        result += 10;
+    }
+
+    // 3. Тернарный оператор ? : (+1)
+    result = (result > 5) ? result * 2 : result / 2;
+
+    // 4. Switch и case (+2 решения). Блок default - это branch, но не decision.
+    switch (input) {
+        case 1:
+            result += 1;
+            break;
+        case 2:
+            result += 2;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+
+    // 5. Обычный цикл for (+1)
+    for (int i = 0; i < 3; ++i) {
+        result += i;
+    }
+
+    // 6. Range-based for loop (Специфика C++11) (+1)
+    std::vector<int> nums = {1, 2, 3};
+    for (const auto& num : nums) {
+        result += num;
+    }
+
+    // 7. Цикл while (+1)
+    int counter = 3;
+    while (counter > 0) {
+        result++;
+        counter--;
+    }
+
+    // 8. Цикл do-while (+1)
+    do {
+        result--;
+    } while (counter < -1); 
+
+    // 9. Перехват исключений try-catch (catch это +1)
+    try {
+        if (result < 0) { // Еще один if (+1)
+            throw std::runtime_error("Error");
+        }
+    } catch (const std::exception& e) {
+        result = 0;
+    }
+
+    return result;
+}
+
+int main() {
+    std::cout << analyzeMe(5) << std::endl;
+    return 0;
+}

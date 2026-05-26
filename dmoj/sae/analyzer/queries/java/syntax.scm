@@ -1,0 +1,1 @@
+;; Java does not support goto directives; file is kept empty for structural integrity

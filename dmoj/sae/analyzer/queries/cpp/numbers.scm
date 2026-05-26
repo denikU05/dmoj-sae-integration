@@ -1,0 +1,1 @@
+(number_literal) @number
